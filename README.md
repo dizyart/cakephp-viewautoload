@@ -8,12 +8,12 @@ This plugin lets you create corresponding .js files for your views and include
 them automatically in the body (the 'script' block) of the current page:
 
 **directory structure**
- * app
- ** View
- *** Article
- **** view.ctp
- **** view.js
- **** basic.js
+* app
+    * View
+        * Article
+            * view.ctp
+            * view.js
+            * basic.js
 
 **controller code**
 class ArticleController extends AppController {
