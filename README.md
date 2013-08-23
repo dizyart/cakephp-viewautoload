@@ -20,7 +20,7 @@ them automatically in the body (the 'script' block) of the current page:
         class ArticleController extends AppController {
             public $components = array(
                 'ViewAutoload.JsAutoload'
-            )
+            );
 
             public function view($id){
                 $this->set('article', $this->Article->read(null, $id));
@@ -36,7 +36,8 @@ them automatically in the body (the 'script' block) of the current page:
         alert("You are about to read something amazing.");
 
 **layout.ctp
-$this->fetch('script'); //fetches the script block, where the view.js is included
+
+        $this->fetch('script'); //fetches the script block, where the view.js is included
 
 
 
@@ -59,4 +60,35 @@ The JsAutoload component takes 3 options in the settings array:
 * 'eval' (false) - setting eval to true will parse any PHP your .js file has and pass the set viewVars to it
 * 'auto' (true) - if auto is false, you need to load the js manually, as the component will not check if the .js file exists.
 
-Each of these settings can be overriden in the JsAutoload::loadFile options array.
+Each of these settings can be overriden in the `JsAutoload::loadFile($name, $options)` options array.
+
+```php
+class ArticleController extends AppController {
+    public $components = array(
+        'ViewAutoload.JsAutoload' => array(
+            'block' => 'pagejs', // default 'script'
+            'eval' => false,     // default false
+            'auto' => false      // default true
+        )
+    );
+    public function view($id){
+        $this->set('article', $this->Article->read(null, $id));
+        //"auto" option is set to false, we need to load the .js manually:
+            //the file will be evaluated, $article view var will be available
+            $options = array( 'eval' => true );
+            //you can use 'view' OR 'view.js' as the first argument
+            $this->JsAutoload->loadFile('view', $options);
+    }
+```
+
+**view.js**
+
+```php
+var article_id = <?php echo $article['Article']['id']; ?>;
+console.log('Article id: ' + article_id);
+<?php if ($article['Article']['flagged']): //article is flagged for language ?>
+    if (!confirm('<?php echo $article['Article']['id']; ?> uses strong language. Do you wish to continue?')){
+        window.location = '<?php echo Router::url(array('controller' => 'articles'));?>';
+    }
+<?php endif; ?>
+```
