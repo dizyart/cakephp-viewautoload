@@ -1,9 +1,21 @@
 <?php
 
 /**
- * @author DizyArt 
+ * ViewAutoload JsAutoload Helper
+ *
+ * Copyright 2013, DizyArt sp. (http://github.com/dizyart/)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author DizyArt <vanja@dizyart.com>
+ * @copyright     Copyright 2013, DizyArt sp. (http://github.com/dizyart/)
+ * @link          http://github.com/dizyart/cakephp-viewautoload
+ * @package       ViewAutoload
+ * @subpackage    ViewAutoload.View.Helper
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class JSautoloadHelper extends AppHelper {
+class JsAutoloadHelper extends AppHelper {
 	
 	private $_defaultSettings = array(
         

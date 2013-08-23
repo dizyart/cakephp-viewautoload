@@ -1,5 +1,5 @@
-cakephp-viewautoload
-====================
+ViewAutoload for CakePHP
+========================
 
 Load .js files with views automatically!
 
@@ -15,31 +15,59 @@ them automatically in the body (the 'script' block) of the current page:
             * view.js
             * basic.js
 
+The .js files should be in the same directory as the view file.
+
 **controller code**
 
-        class ArticleController extends AppController {
-            public $components = array(
-                'ViewAutoload.JsAutoload'
-            );
+```php
+class ArticleController extends AppController {
+    public $components = array(
+        'ViewAutoload.JsAutoload'
+    );
 
-            public function view($id){
-                $this->set('article', $this->Article->read(null, $id));
-            }
-        }
+    public function view($id){
+        $this->set('article', $this->Article->read(null, $id));
+    }
+}
+```
 
 **view.ctp**
 
-        <h1><?php echo $article['Atricle']['title'] ?></h1>
+```html
+<h1><?php echo $article['Atricle']['title'] ?></h1>
+```
+
 
 **view.js**
 
-        alert("You are about to read something amazing.");
+```js
+    alert("You are about to read something amazing.");
+```
 
-**layout.ctp
+**layout.ctp**
 
-        $this->fetch('script'); //fetches the script block, where the view.js is included
+```html
+<head>
+...
+<?php echo $this->fetch('script'); //fetches the script block, where the view.js is included ?>
+...
+```
 
+The rendered HTML should now look something like:
 
+```html
+<html>
+<head>
+...
+<script type="text/javascript">
+    alert("You are about to read something amazing.");
+</script>
+...
+<body>
+...
+<h1>An article to be amazed</h1>
+...
+```
 
 ##advantages##
 
@@ -52,7 +80,8 @@ them automatically in the body (the 'script' block) of the current page:
 ##disadvantages##
 
 * Not-entirely conventional - .js files are not really supposed to be in the View folder, but it makes sense to me to put them there for small pieces of view-related code.
-* Size and Caching - if you have big .js files and need them to be cached, you should link to a .js file from the webroot and not include it in the page.
+* Size and Caching - if you have big .js files and need them to be cached by the browser, you should link to a .js file from the webroot and not include it in the page.
+* Embedded script block - pitfalls are many.
 
 ##Options##
 The JsAutoload component takes 3 options in the settings array:
@@ -92,3 +121,21 @@ console.log('Article id: ' + article_id);
     }
 <?php endif; ?>
 ```
+
+If `autoload` is set to true and `eval` to false, you can still force evaluation by loading the file
+manually before action ends.
+
+```php
+public function view($id) {
+    // this evaluates the view.js as a php file, 
+    // regardless of the component settings
+    $this->JsAutoload->loadFile('view', array('eval' => true));
+}
+
+##Setup##
+        cd MyProject/app/Plugin/
+        git clone https://github.com/dizyart/cakephp-viewautoload.git
+        // add this to bootstrap.php:
+        CakePlugin::load('ViewAutoload');
+
+See above how to attach the component to your controller class.
