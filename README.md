@@ -17,23 +17,23 @@ them automatically in the body (the 'script' block) of the current page:
 
 **controller code**
 
-    class ArticleController extends AppController {
-        public $components = array(
-            'ViewAutoload.JsAutoload'
-        )
+        class ArticleController extends AppController {
+            public $components = array(
+                'ViewAutoload.JsAutoload'
+            )
 
-        public function view($id){
-            $this->set('article', $this->Article->read(null, $id));
+            public function view($id){
+                $this->set('article', $this->Article->read(null, $id));
+            }
         }
-    }
 
 **view.ctp**
 
-    <h1><?php echo $article['Atricle']['title'] ?></h1>
+        <h1><?php echo $article['Atricle']['title'] ?></h1>
 
 **view.js**
 
-    alert("You are about to read something amazing.");
+        alert("You are about to read something amazing.");
 
 **layout.ctp
 $this->fetch('script'); //fetches the script block, where the view.js is included
