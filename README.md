@@ -33,19 +33,14 @@ class ArticleController extends AppController {
 
 **view.ctp**
 
-```html
-<h1><?php echo $article['Atricle']['title'] ?></h1>
-```
-
+        <h1><?php echo $article['Atricle']['title'] ?></h1>
 
 **view.js**
-
 ```js
-    alert("You are about to read something amazing.");
+alert("You are about to read something amazing.");
 ```
 
 **layout.ctp**
-
 ```html
 <head>
 ...
@@ -53,14 +48,14 @@ class ArticleController extends AppController {
 ...
 ```
 
-The rendered HTML should now look something like:
+The rendered HTML should now look like:
 
 ```html
 <html>
 <head>
 ...
 <script type="text/javascript">
-    alert("You are about to read something amazing.");
+alert("You are about to read something amazing.");
 </script>
 ...
 <body>
