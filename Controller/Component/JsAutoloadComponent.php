@@ -1,9 +1,35 @@
 <?php
 
-
+/**
+ * ViewAutoload JsAutoload component
+ *
+ * Copyright 2013, DizyArt sp. (http://github.com/dizyart/)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author DizyArt <vanja@dizyart.com>
+ * @copyright     Copyright 2013, DizyArt sp. (http://github.com/dizyart/)
+ * @link          http://github.com/dizyart/cakephp-viewautoload
+ * @package       ViewAutoload
+ * @subpackage    ViewAutoload.Controller.Component
+ * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ */
 class JsAutoloadComponent extends Component {
 	
-	private $_loadFiles = array();
+	/**
+     * A list of files passed to the helper
+     * - key: Absolute path to file
+     * - vaue: array of options
+     * @var array
+     */
+    private $_loadFiles = array();
+    
+    /**
+     * Default settings for component, to be overridden in component definition.
+     * 
+     * @var array
+     */
 	private $_defaultSettings = array(
         'block' => 'script',
         'eval' => false,
@@ -28,6 +54,16 @@ class JsAutoloadComponent extends Component {
         }
 	}
 	
+    /**
+     * Loads a file from the current view scope.
+     * 
+     * Options:
+     *  - eval (bool) - whether to eval the included .js file
+     *  - block (string) - the view block to which to write the file
+     * 
+     * @param string $name
+     * @param array $options
+     */
 	public function loadFile($name, $options = array()){
         $options = $options + $this->settings;
 		$this->_loadFiles[$name] = $options;
@@ -52,10 +88,6 @@ class JsAutoloadComponent extends Component {
 		$controller->set('JsAutoload.paths', $paths);
 	}
     
-    public function stop(){
-		$this->_loadFiles = array();
-	}
-	
 }
 
 

@@ -35,9 +35,11 @@ them automatically in the body (the 'script' block) of the current page:
 
         alert("You are about to read something amazing.");
 
-**layout.ctp
-
-        $this->fetch('script'); //fetches the script block, where the view.js is included
+**layout.ctp**
+        <head>
+        ...
+        <?php echo $this->fetch('script'); //fetches the script block, where the view.js is included ?>
+        ...
 
 
 
@@ -92,3 +94,13 @@ console.log('Article id: ' + article_id);
     }
 <?php endif; ?>
 ```
+
+If `autoload` is set to true and `eval` to false, you can still force evaluation by loading the file
+manually before action ends.
+
+```php
+public function view($id) {
+    // this evaluates the view.js as a php file, 
+    // regardless of the component settings
+    $this->JsAutoload->loadFile('view', array('eval' => true));
+}
