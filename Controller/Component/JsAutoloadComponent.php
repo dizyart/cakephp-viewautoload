@@ -73,20 +73,39 @@ class JsAutoloadComponent extends Component {
 		if (empty($this->_loadFiles)) return;
 		$paths = array();
 		foreach ($this->_loadFiles as $file => $options) {
-            $base = $this->path . $controller->viewPath . DS . $file;
-            if (@file_exists($base)) {
-                $paths[$base] = $options;
+            $path = $this->_findFile($file, $controller, $external);
+            if ($path !== false) {
+                $options['external'] = $external;
+                $paths[$path] = $options;
             }
-            elseif(@file_exists($base . '.js')){
-                $paths[$base.'.js'] = $options;
-            }
-            else {
-                trigger_error("Could not include $base(.js) - file doesn't exist", E_USER_WARNING);
-            }
-			
 		}
 		$controller->set('JsAutoload.paths', $paths);
 	}
+    
+    private function _findFile($name, $controller, &$webroot = false){
+        foreach (array(
+            $this->path . $controller->viewPath . DS . $name,
+            $this->path . $controller->viewPath . DS . $name . '.js'
+            )
+                as $path) {
+            if (@file_exists($path)) {
+                $webroot = false;
+                return $path;
+            }
+        }
+        foreach (array(
+            JS . Inflector::underscore($controller->viewPath) . DS . $name =>  Inflector::underscore($controller->viewPath) . '/' . $name,
+            JS . Inflector::underscore($controller->viewPath) . DS . $name . '.js' => Inflector::underscore($controller->viewPath) . '/' . $name . '.js'
+            )
+                as $path => $return) {
+            if (@file_exists($path)) {
+                $webroot = true;
+                return $return;
+            }
+        }
+        trigger_error("Could not find $name - file doesn't exist", E_USER_WARNING);
+        return false;
+    }
     
 }
 

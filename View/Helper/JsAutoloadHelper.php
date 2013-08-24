@@ -20,6 +20,10 @@ class JsAutoloadHelper extends AppHelper {
 	private $_defaultSettings = array(
         
     );
+    /**
+     *
+     * @var View 
+     */
 	public $view = null;
 	function __construct($View, $settings){
 		
@@ -33,8 +37,13 @@ class JsAutoloadHelper extends AppHelper {
 		if (!empty($this->view->viewVars['JsAutoload.paths'])){
 			
 			foreach ($this->view->viewVars['JsAutoload.paths'] as $path => $options) {
-				
-                $this->view->append($options['block'], $this->loadFile($path, $options['eval']));
+				if (!empty($options['external'])){
+                    $Html = $this->view->Helpers->load('Html');
+                    $Html->script($path, ['block' => $options['block']]);
+                }
+                else {
+                    $this->view->append($options['block'], $this->loadFile($path, $options['eval']));
+                }
 				
 			}
 		}
@@ -52,6 +61,10 @@ class JsAutoloadHelper extends AppHelper {
         $out .= '</script>';
         $out .= "\n";
         return $out;
+    }
+    
+    function linkFile($path){
+        $this->view->Html->script($path);
     }
     
     function _evaluate($path, $data = array()){
