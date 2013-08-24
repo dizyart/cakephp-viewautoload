@@ -140,8 +140,10 @@ public function view($id) {
 
 ##Setup##
         cd MyProject/app/Plugin/
-        git clone https://github.com/dizyart/cakephp-viewautoload.git
+        git clone https://github.com/dizyart/cakephp-viewautoload.git ./ViewAutoload
         // add this to bootstrap.php:
         CakePlugin::load('ViewAutoload');
-
-See above how to attach the component to your controller class.
+        //add this to Controller:
+        public $components = array('ViewAutoload.JsAutoload');
+        
+        echo 'voila!';
