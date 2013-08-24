@@ -17,6 +17,16 @@ them automatically in the body (the 'script' block) of the current page:
 
 The .js files should be in the same directory as the view file.
 
+###OR:###
+
+## Linking view-related .js files from webroot/js ##
+
+        app/View/Article/view.js
+        app/webroot/js/article/view.js
+
+The link to the app_url/js/{controller_name}/{view}.js will also be created automatically.
+The name of the controller directory in the JS folder should be underscored.
+
 **controller code**
 
 ```php
