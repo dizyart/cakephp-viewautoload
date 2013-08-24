@@ -136,6 +136,7 @@ public function view($id) {
     // regardless of the component settings
     $this->JsAutoload->loadFile('view', array('eval' => true));
 }
+```
 
 ##Setup##
         cd MyProject/app/Plugin/
